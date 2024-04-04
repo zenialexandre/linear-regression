@@ -21,28 +21,60 @@ third_dataset_matrix: list = np.array(
     ]
 )
 
-def create_dataset_matrix_scatter_plots(
+def create_dataset_matrix_figure(
     first_dataset_matrix: list,
     second_dataset_matrix: list,
     third_dataset_matrix: list
 ) -> None:
-    fig, ax = plt.subplots(1, 3, figsize=(15, 5))
-    fig.canvas.manager.set_window_title('Scatter Plots of the Datasets')
+    (figure, figure_data) = plt.subplots(nrows=1, ncols=3, figsize=(15, 5))
+    figure.canvas.manager.set_window_title('Dataset Analysis (Linear Regression)')
 
-    ax[0].scatter(x=first_dataset_matrix[0], y=first_dataset_matrix[1], color='red')
-    ax[0].set_title('Scatter Plot of the First Dataset')
-    
-    ax[1].scatter(x=second_dataset_matrix[0], y=second_dataset_matrix[1], color='blue', label='Second Dataset')
-    ax[1].set_title('Scatter Plot of the Second Dataset')
-    
-    ax[2].scatter(x=third_dataset_matrix[0], y=third_dataset_matrix[1], color='green', label='Third Dataset')
-    ax[2].set_title('Scatter Plot of the Third Dataset')
-
+    create_dataset_matrix_scatter_plots(
+        figure_data,
+        first_dataset_matrix,
+        second_dataset_matrix,
+        third_dataset_matrix
+    )
     plt.tight_layout()
     plt.show()
 
-create_dataset_matrix_scatter_plots(
-    first_dataset_matrix,
+def create_dataset_matrix_scatter_plots(
+    figure_data: any,
+    first_dataset_matrix: list,
+    second_dataset_matrix: list,
+    third_dataset_matrix: list
+) -> None:
+    first_dataset_matrix_correlation_coefficient: float = correlation_coefficient(first_dataset_matrix)
+    second_dataset_matrix_correlation_coefficient: float = correlation_coefficient (second_dataset_matrix)
+    third_dataset_matrix_correlation_coefficient: float = correlation_coefficient(third_dataset_matrix)
+
+    (_, first_dataset_matrix_beta_1, first_dataset_matrix_beta_0) = linear_regression(first_dataset_matrix)
+    (_, second_dataset_matrix_beta_1, second_dataset_matrix_beta_0) = linear_regression(second_dataset_matrix)
+    (_, third_dataset_matrix_beta_1, third_dataset_matrix_beta_0) = linear_regression(third_dataset_matrix)
+
+    (first_best_fit_a, first_best_fit_b) = np.polyfit(first_dataset_matrix[0], first_dataset_matrix[1], 1)
+    figure_data[0].scatter(x=first_dataset_matrix[0], y=first_dataset_matrix[1], color='red')
+    figure_data[0].plot(first_dataset_matrix[0], first_best_fit_a * first_dataset_matrix[0] + first_best_fit_b)
+    figure_data[0].set_title(
+        f'y = {first_dataset_matrix_beta_1}x + {first_dataset_matrix_beta_0} | r = {first_dataset_matrix_correlation_coefficient}'
+    )
+
+    (second_best_fit_a, second_best_fit_b) = np.polyfit(second_dataset_matrix[0], second_dataset_matrix[1], 1)
+    figure_data[1].scatter(x=second_dataset_matrix[0], y=second_dataset_matrix[1], color='blue', label='Second Dataset')
+    figure_data[1].plot(second_dataset_matrix[0], second_best_fit_a * second_dataset_matrix[0] + second_best_fit_b)
+    figure_data[1].set_title(
+        f'y = {second_dataset_matrix_beta_1}x + {second_dataset_matrix_beta_0} | r = {second_dataset_matrix_correlation_coefficient}'
+    )
+
+    (third_best_fit_a, third_best_fit_b) = np.polyfit(third_dataset_matrix[0], third_dataset_matrix[1], 1)
+    figure_data[2].scatter(x=third_dataset_matrix[0], y=third_dataset_matrix[1], color='green', label='Third Dataset')
+    figure_data[2].plot(third_dataset_matrix[0], third_best_fit_a * third_dataset_matrix[0] + third_best_fit_b)
+    figure_data[2].set_title(
+        f'y = {third_dataset_matrix_beta_1}x + {third_dataset_matrix_beta_0} | r = {third_dataset_matrix_correlation_coefficient}'
+    )
+
+create_dataset_matrix_figure(
+    first_dataset_matrix, 
     second_dataset_matrix,
     third_dataset_matrix
 )

@@ -13,11 +13,14 @@ def correlation_coefficient(dataset_matrix: list) -> float:
         correlation_coefficient_denominator_x += (dataset_matrix[0][index] - dataset_matrix_x_mean) ** 2
         correlation_coefficient_denominator_y += (dataset_matrix[1][index] - dataset_matrix_y_mean) ** 2
 
-    return correlation_coefficient_numerator / math.sqrt(
-        correlation_coefficient_denominator_x * correlation_coefficient_denominator_y
+    return round(
+        correlation_coefficient_numerator / math.sqrt(
+            correlation_coefficient_denominator_x * correlation_coefficient_denominator_y
+        ),
+        4
     )
 
-def linear_regression(dataset_matrix: list) -> list:
+def linear_regression(dataset_matrix: list) -> tuple[list, float, float]:
     (dataset_matrix_x_mean, dataset_matrix_y_mean) = get_dataset_matrix_x_and_y_means(dataset_matrix)
     beta_1: float = get_calculated_beta_1(
         dataset_matrix,
@@ -32,7 +35,7 @@ def linear_regression(dataset_matrix: list) -> list:
     y_hat: list = []
 
     for cell_x in dataset_matrix[0]: y_hat.append(beta_0 + beta_1 * cell_x)
-    return y_hat
+    return (y_hat, beta_1, beta_0)
 
 def get_dataset_matrix_x_and_y_means(dataset_matrix: list) -> tuple[float, float]:
     return (np.mean(dataset_matrix[0]), np.mean(dataset_matrix[1]))
