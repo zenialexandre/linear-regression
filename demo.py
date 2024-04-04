@@ -32,10 +32,10 @@ def create_dataset_matrix_scatter_plots(
     ax[0].scatter(x=first_dataset_matrix[0], y=first_dataset_matrix[1], color='red')
     ax[0].set_title('Scatter Plot of the First Dataset')
     
-    ax[1].scatter(x=second_dataset_matrix[0], y=second_dataset_matrix[1], color='blue', label='Second Dataset')
+    ax[1].scatter(x=second_dataset_matrix[0], y=second_dataset_matrix[1], color='blue')
     ax[1].set_title('Scatter Plot of the Second Dataset')
     
-    ax[2].scatter(x=third_dataset_matrix[0], y=third_dataset_matrix[1], color='green', label='Third Dataset')
+    ax[2].scatter(x=third_dataset_matrix[0], y=third_dataset_matrix[1], color='green')
     ax[2].set_title('Scatter Plot of the Third Dataset')
 
     plt.tight_layout()
