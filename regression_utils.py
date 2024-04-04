@@ -16,29 +16,34 @@ def corelation_coefficient(array):
 
     return sum_numerator / math.sqrt(sum_denominator_x * sum_denominator_y)
 
-'''
-data_1 = np.array(
-    [[10,8,13,9,11,14,6,4,12,7,5],
-     [8.04,6.95,7.58,8.81,8.33,9.96,7.24,4.26,10.84,4.82,5.68]
-    ]
-)
 
-print(corelation_coefficient(data_1))
+def linear_regression(array):
 
+    x_mean = np.mean(array[0])
+    y_mean = np.mean(array[1])
 
-data_2 = np.array(
-    [[10,8,13,9,11,14,6,4,12,7,5],
-     [9.14,8.14,8.47,8.77,9.26,8.10,6.13,3.10,9.13,7.26,4.74],
-    ]
-)
+    beta_1 = caculate_beta_1(array, x_mean, y_mean)
+    beta_0 = calculate_beta_0(beta_1, x_mean, y_mean)
 
-print(corelation_coefficient(data_2))
-'''
+    y_hat = []
+    for x in array[0]:
+        y_hat.append(beta_0 + beta_1*x)
+        
+    return y_hat
 
-data_3 = np.array(
-    [[8,8,8,8,8,8,8,8,8,8,19],
-     [6.58,5.76,7.71,8.84,8.47,7.04,5.25,5.56,7.91,6.89,12.50],
-    ]
-)
+def caculate_beta_1(array, x_mean, y_mean):
 
-print(corelation_coefficient(data_3))
+    len_array = len(array[0])
+
+    sum_numerator = 0
+    sum_dominator = 0
+
+    for idx in range(len_array):
+        sum_numerator += (array[0][idx] - x_mean)*(array[1][idx] - y_mean)
+        sum_dominator += (array[0][idx] - x_mean)**2
+    
+    
+    return round(sum_numerator / sum_dominator,4)
+
+def calculate_beta_0(beta_1, x_mean, y_mean):
+    return round(y_mean - beta_1*x_mean,4)
