@@ -60,14 +60,14 @@ def create_dataset_matrix_scatter_plots(
     )
 
     (second_best_fit_a, second_best_fit_b) = np.polyfit(second_dataset_matrix[0], second_dataset_matrix[1], 1)
-    figure_data[1].scatter(x=second_dataset_matrix[0], y=second_dataset_matrix[1], color='blue', label='Second Dataset')
+    figure_data[1].scatter(x=second_dataset_matrix[0], y=second_dataset_matrix[1], color='blue')
     figure_data[1].plot(second_dataset_matrix[0], second_best_fit_a * second_dataset_matrix[0] + second_best_fit_b)
     figure_data[1].set_title(
         f'y = {second_dataset_matrix_beta_1}x + {second_dataset_matrix_beta_0} | r = {second_dataset_matrix_correlation_coefficient}'
     )
 
     (third_best_fit_a, third_best_fit_b) = np.polyfit(third_dataset_matrix[0], third_dataset_matrix[1], 1)
-    figure_data[2].scatter(x=third_dataset_matrix[0], y=third_dataset_matrix[1], color='green', label='Third Dataset')
+    figure_data[2].scatter(x=third_dataset_matrix[0], y=third_dataset_matrix[1], color='green')
     figure_data[2].plot(third_dataset_matrix[0], third_best_fit_a * third_dataset_matrix[0] + third_best_fit_b)
     figure_data[2].set_title(
         f'y = {third_dataset_matrix_beta_1}x + {third_dataset_matrix_beta_0} | r = {third_dataset_matrix_correlation_coefficient}'
