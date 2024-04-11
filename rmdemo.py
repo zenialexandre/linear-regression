@@ -113,25 +113,6 @@ def initial_dataset_dataframe_analysis(
     _ = dataset_dataframe[dataset_dataframe_prices == dataset_dataframe_prices.max()][1]
     # Result: 5
 
-def show_corr_and_linear_reg_plots(
-    dataset_dataframe: pd.DataFrame,
-    multiple_linear_regression_result: list
-) -> None:
-    # Creating the 2D Scatter Plots (Prices/Sizes, Prices/Rooms matrices)
-    # Creating the 3D Scatter Plot (Sizes/Rooms/Prices matrix)
-    sizes_matrix: list = dataset_dataframe[0].values.tolist()
-    rooms_matrix: list = dataset_dataframe[1].values.tolist()
-    prices_matrix: list = dataset_dataframe[2].values.tolist()
-
-    prices_and_sizes_matrix: pd.Series = [sizes_matrix, prices_matrix]
-    prices_and_rooms_matrix: pd.Series = [rooms_matrix, prices_matrix]
-    sizes_and_rooms_and_prices_matrix: list = [sizes_matrix, rooms_matrix, prices_matrix]
-
-    create_regression_plots(
-        [np.array(prices_and_sizes_matrix), np.array(prices_and_rooms_matrix)],
-        (multiple_linear_regression_result, np.array(sizes_and_rooms_and_prices_matrix), True)
-    )
-
 def calculate_multiple_linear_regression(
     dataset_dataframe: pd.DataFrame    
 ) -> list:
@@ -159,5 +140,24 @@ def calculate_multiple_linear_regression(
     ]
     '''
     return multiple_linear_regression_result
+
+def show_corr_and_linear_reg_plots(
+    dataset_dataframe: pd.DataFrame,
+    multiple_linear_regression_result: list
+) -> None:
+    # Creating the 2D Scatter Plots (Prices/Sizes, Prices/Rooms matrices)
+    # Creating the 3D Scatter Plot (Sizes/Rooms/Prices matrix)
+    sizes_matrix: list = dataset_dataframe[0].values.tolist()
+    rooms_matrix: list = dataset_dataframe[1].values.tolist()
+    prices_matrix: list = dataset_dataframe[2].values.tolist()
+
+    prices_and_sizes_matrix: pd.Series = [sizes_matrix, prices_matrix]
+    prices_and_rooms_matrix: pd.Series = [rooms_matrix, prices_matrix]
+    sizes_and_rooms_and_prices_matrix: list = [sizes_matrix, rooms_matrix, prices_matrix]
+
+    create_regression_plots(
+        [np.array(prices_and_sizes_matrix), np.array(prices_and_rooms_matrix)],
+        (multiple_linear_regression_result, np.array(sizes_and_rooms_and_prices_matrix), True)
+    )
 
 process_dataset_dataframe_analysis(dataset_dataframe)
