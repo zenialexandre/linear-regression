@@ -25,4 +25,4 @@ create_regression_plots(
     (None, None, False)
 )
 
-# Most Inapropriate Dataset for Regression = third_dataset_matrix
+# Most inappropriate Dataset for Regression = third_dataset_matrix
