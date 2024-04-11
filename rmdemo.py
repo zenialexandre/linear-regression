@@ -87,6 +87,17 @@ def initial_dataset_dataframe_analysis(
 ) -> None:
     # Describing the dataset for analysis
     pd.DataFrame.describe(dataset_dataframe)
+    '''
+                0          1              2
+    count    47.000000  47.000000      47.000000
+    mean   2000.680851   3.170213  340412.765957
+    std     794.702354   0.760982  125039.911223
+    min     852.000000   1.000000  169900.000000
+    25%    1432.000000   3.000000  249900.000000
+    50%    1888.000000   3.000000  299900.000000
+    75%    2269.000000   4.000000  384450.000000
+    max    4478.000000   5.000000  699900.000000
+    '''
 
     # Getting the mean of the prices
     dataset_dataframe_prices: pd.Series = dataset_dataframe[2]
