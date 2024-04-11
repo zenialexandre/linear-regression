@@ -61,3 +61,7 @@ def get_calculated_beta_0(
     dataset_matrix_y_mean: float
 ) -> float:
     return round(dataset_matrix_y_mean - beta_1 * dataset_matrix_x_mean, 4)
+
+
+def multiple_linear_regression():
+    return None
