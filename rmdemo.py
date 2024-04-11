@@ -116,7 +116,7 @@ def initial_dataset_dataframe_analysis(
 def calculate_multiple_linear_regression(
     dataset_dataframe: pd.DataFrame    
 ) -> list:
-    # Calculate the Multiple Linear Regression
+    # Calculating the Multiple Linear Regression
     dataset_dataframe.insert(loc=0, column="initial", value=1)
 
     multiple_linear_regression_result: list = multiple_linear_regression(
