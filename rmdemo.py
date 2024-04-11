@@ -5,7 +5,7 @@ from regression_utils import multiple_linear_regression
 
 # dataset_dataframe = sizes, rooms, prices
 
-dataset_dataframe: pd.DataFrame = pd.read_csv(r"content/data.csv", header=None)
+dataset_dataframe: pd.DataFrame = pd.read_csv(r"content/dataset_second_phase.csv", header=None)
 
 def process_dataset_dataframe_analysis(
     dataset_dataframe: pd.DataFrame
@@ -79,8 +79,8 @@ def process_dataset_dataframe_analysis(
     ]
     '''
 
-    show_corr_and_linear_reg_plots(dataset_dataframe)
-    calculate_multiple_linear_regression(dataset_dataframe)
+    multiple_linear_regression_result: list = calculate_multiple_linear_regression(dataset_dataframe)
+    show_corr_and_linear_reg_plots(dataset_dataframe, multiple_linear_regression_result)
 
 def initial_dataset_dataframe_analysis(
     dataset_dataframe: pd.DataFrame
@@ -114,21 +114,31 @@ def initial_dataset_dataframe_analysis(
     # Result: 5
 
 def show_corr_and_linear_reg_plots(
-    dataset_dataframe: pd.DataFrame
+    dataset_dataframe: pd.DataFrame,
+    multiple_linear_regression_result: list
 ) -> None:
-    # Getting the Prices/Sizes and the Prices/Rooms matrices and creating it's scatter plots
-    prices_and_sizes_matrix: pd.Series = [dataset_dataframe[0].values.tolist(), dataset_dataframe[2].values.tolist()]
-    prices_and_rooms_matrix: pd.Series = [dataset_dataframe[1].values.tolist(), dataset_dataframe[2].values.tolist()]
+    # Creating the 2D Scatter Plots (Prices/Sizes, Prices/Rooms matrices)
+    # Creating the 3D Scatter Plot (Sizes/Rooms/Prices matrix)
+    sizes_matrix: list = dataset_dataframe[0].values.tolist()
+    rooms_matrix: list = dataset_dataframe[1].values.tolist()
+    prices_matrix: list = dataset_dataframe[2].values.tolist()
 
-    create_regression_plots([np.array(prices_and_sizes_matrix), np.array(prices_and_rooms_matrix)])
+    prices_and_sizes_matrix: pd.Series = [sizes_matrix, prices_matrix]
+    prices_and_rooms_matrix: pd.Series = [rooms_matrix, prices_matrix]
+    sizes_and_rooms_and_prices_matrix: list = [sizes_matrix, rooms_matrix, prices_matrix]
+
+    create_regression_plots(
+        [np.array(prices_and_sizes_matrix), np.array(prices_and_rooms_matrix)],
+        (multiple_linear_regression_result, np.array(sizes_and_rooms_and_prices_matrix), True)
+    )
 
 def calculate_multiple_linear_regression(
     dataset_dataframe: pd.DataFrame    
-) -> None:
+) -> list:
     # Calculate the Multiple Linear Regression
     dataset_dataframe.insert(loc=0, column="initial", value=1)
 
-    _ = multiple_linear_regression(
+    multiple_linear_regression_result: list = multiple_linear_regression(
         dataset_dataframe.iloc[:, 0:3].values,
         dataset_dataframe.iloc[:, 3].values
     )
@@ -148,5 +158,6 @@ def calculate_multiple_linear_regression(
         190729.39584272 312464.19965268 230854.4131848
     ]
     '''
+    return multiple_linear_regression_result
 
 process_dataset_dataframe_analysis(dataset_dataframe)

@@ -67,12 +67,11 @@ def get_calculated_beta_0(
 def multiple_linear_regression(
     independent_variables_matrix: np.ndarray,
     dependent_variable_vector: np.ndarray
-) -> np.ndarray:
+) -> list:
     independent_variables_matrix_transposed: np.ndarray = np.transpose(independent_variables_matrix)
     beta: np.ndarray = np.matmul(
         np.matmul(
             np.linalg.inv(np.matmul(independent_variables_matrix_transposed, independent_variables_matrix)), independent_variables_matrix_transposed
         ), dependent_variable_vector
     )
-
-    return np.matmul(independent_variables_matrix, beta)
+    return np.matmul(independent_variables_matrix, beta).tolist()
