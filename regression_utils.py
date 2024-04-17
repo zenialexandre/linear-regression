@@ -74,4 +74,10 @@ def multiple_linear_regression(
             np.linalg.inv(np.matmul(independent_variables_matrix_transposed, independent_variables_matrix)), independent_variables_matrix_transposed
         ), dependent_variable_vector
     )
+    return np.matmul(independent_variables_matrix, beta).tolist(), beta
+
+def make_previsions_multiple_linear_regression(
+        independent_variables_matrix: np.ndarray,
+        beta: np.ndarray
+) -> list:
     return np.matmul(independent_variables_matrix, beta).tolist()

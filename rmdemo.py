@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
 from plotter import create_regression_plots
-from regression_utils import multiple_linear_regression
+from regression_utils import multiple_linear_regression, make_previsions_multiple_linear_regression
+from sklearn.linear_model import LinearRegression
 
 # dataset_dataframe = sizes, rooms, prices
 
@@ -117,12 +118,14 @@ def calculate_multiple_linear_regression(
     dataset_dataframe: pd.DataFrame    
 ) -> list:
     # Calculating the Multiple Linear Regression
+    dataset_scikit = dataset_dataframe.copy()
     dataset_dataframe.insert(loc=0, column="initial", value=1)
 
-    multiple_linear_regression_result: list = multiple_linear_regression(
+    multiple_linear_regression_result, beta = multiple_linear_regression(
         dataset_dataframe.iloc[:, 0:3].values,
         dataset_dataframe.iloc[:, 3].values
     )
+    
     '''
     [
         356283.19500476 286121.03514098 397489.54286126 269244.19378551
@@ -138,8 +141,53 @@ def calculate_multiple_linear_regression(
         303768.43117879 374937.4200479  411999.80342768 230436.78128085
         190729.39584272 312464.19965268 230854.4131848
     ]
+    ''' 
+
+    previsions = validate_multiple_linear_regression(beta)
     '''
+    O preço de uma casa com tamanho 1650 e com 3 quartos previsto pelo nosso modelo está no primeiro indice da lista abaixo:
+
+    [293081.5668735012, 275605.7360331272, 301819.4822936882, 240654.07435237913]
+    
+    Conforme o número de quartos aumenta, o preço diminui. Com cinco quartos, o modelo previu o valor de 275605, e com 9
+    previu o valor de 240654.
+
+    Aumentando o número de quartos para valores maiores ou iguais a cinco, o modelo começa a fazer previsões estranbhas devido
+    a falta de dados de exemplo nesses casos. 
+
+    Como prova, previmos o preço de uma casa com dois quartos, e foi previsto o valor 301819, algo que faz sentido graficamente
+    analisando os dados 3D do modelo e também pelo maior número de amostras de valores menores para quartos.
+
+    Os valores previstos pelo SciKitLearn foram os seguintes:
+
+    [293081.5668735  275605.73603313 301819.48229369 240654.07435238]
+
+    Os valores estão muito similares com os que previmos no nosso modelo.
+    '''
+    previsions_scikit = compare_previsions_scikitlearn(dataset_scikit)
+
+    print(previsions_scikit)
+
     return multiple_linear_regression_result
+
+def compare_previsions_scikitlearn(df):
+    df_validation = pd.DataFrame(data={0:[1650,1650,1650,1650],1:[3,5,2,9]})
+
+    model = LinearRegression()
+    X_train = df.iloc[:, 0:2]
+    y_train = df.iloc[:, 2]
+
+    model.fit(X_train, y_train)
+
+    return model.predict(df_validation)
+    
+def validate_multiple_linear_regression(beta: np.ndarray) -> None:
+    #Validation dataset
+    df_validation = pd.DataFrame(data={"initial":[1,1,1,1],0:[1650,1650,1650,1650],1:[3,5,2,9]})
+    df_validation = df_validation.iloc[:, :].values
+    beta = np.transpose(beta)
+
+    return make_previsions_multiple_linear_regression(df_validation, beta)
 
 def show_corr_and_linear_reg_plots(
     dataset_dataframe: pd.DataFrame,
@@ -157,7 +205,9 @@ def show_corr_and_linear_reg_plots(
 
     create_regression_plots(
         [np.array(prices_and_sizes_matrix), np.array(prices_and_rooms_matrix)],
-        (multiple_linear_regression_result, np.array(sizes_and_rooms_and_prices_matrix), True)
+        (multiple_linear_regression_result, np.array(sizes_and_rooms_and_prices_matrix), True),
+        ['Prices x Sizes', 'Prices x Rooms']
     )
 
 process_dataset_dataframe_analysis(dataset_dataframe)
+calculate_multiple_linear_regression(dataset_dataframe)
