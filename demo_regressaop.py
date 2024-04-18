@@ -1,8 +1,7 @@
 import pandas as pd
 import numpy as np
-from plotter import create_single_3d_scatter_plots
 
-df = pd.read_csv(r"content/data_preg.csv", header=None)
+df = pd.read_csv(r'content/dataset_third_phase.csv', header=None)
 
 #create_single_3d_scatter_plots(df)
 
