@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from regression_utils import correlation_coefficient, linear_regression
+import pandas as pd
 
 def create_regression_plots(
     matrices: list,
@@ -49,8 +50,6 @@ def create_2d_scatter_plots(
     matrices: list,
     additional_title: list = None
 ) -> None:
-    
-
     for index, matrix in enumerate(matrices):
         matrix_correlation_coefficient: float = correlation_coefficient(matrix)
         (_, matrix_beta_1, matrix_beta_0) = linear_regression(matrix)

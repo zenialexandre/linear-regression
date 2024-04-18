@@ -81,3 +81,6 @@ def make_previsions_multiple_linear_regression(
         beta: np.ndarray
 ) -> list:
     return np.matmul(independent_variables_matrix, beta).tolist()
+
+def calculate_mean_squared_error():
+    return None
