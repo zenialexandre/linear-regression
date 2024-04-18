@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from regression_utils import correlation_coefficient, linear_regression
 
 def create_regression_plots(
@@ -90,3 +91,27 @@ def create_3d_scatter_plots(
     figure_data_3d.set_xlabel('X1-Sizes')
     figure_data_3d.set_ylabel('X2-Rooms')
     figure_data_3d.set_zlabel('Y-Prices')
+
+def create_polynomial_regression_plot(
+    dataset_dataframe_x: pd.Series,
+    dataset_dataframe_y: pd.Series    
+) -> None:
+    (figure, figure_data) = plt.subplots(
+        nrows=1,
+        ncols=1,
+        figsize=(15, 8)
+    )
+    figure.canvas.manager.set_window_title('Polynomial Regression Analysis')
+
+    figure_data.scatter(
+        x=dataset_dataframe_x,
+        y=dataset_dataframe_y,
+        c='black'
+    )
+    figure_data.set_title('Polynomial Regression Scatter Plot')
+
+    #(a, b) = np.polyfit(dataset_dataframe_x, dataset_dataframe_y, 1)
+    #plt.plot(dataset_dataframe_x, dataset_dataframe_x * a + dataset_dataframe_x * b, c='red')
+
+    plt.tight_layout()
+    plt.show()
