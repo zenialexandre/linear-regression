@@ -86,9 +86,19 @@ def calculate_mean_squared_error():
     return None
 
 def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int = 1):
-    beta_coef_list = np.polyfit(X, y, 1)
-    power = coef
+    beta_coef_list = np.polyfit(X, y, coef).tolist()
+    beta_coef_list.reverse()
+    beta_0 = beta_coef_list.pop(0)
+    power = 0
+    y_hat = np.array([])
     #TODO: Finalizar a construção da matriz da regressão polinomial
-    for index, beta_coef in enumerate(beta_coef_list):
-        if(index != len(beta_coef_list) - 1 ):
-            pass
+    for beta_coef in beta_coef_list:
+        power += 1
+        if(y_hat.any()):
+            y_hat = np.add(y, np.multiply(beta_coef, np.power(X, power)))
+        else:
+            y_hat = np.multiply(beta_coef, X)
+
+    y_hat = np.add(beta_0, y_hat)
+
+    return y_hat

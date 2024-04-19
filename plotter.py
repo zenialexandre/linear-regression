@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from regression_utils import correlation_coefficient, linear_regression
+from scipy.interpolate import make_interp_spline
 
 def create_regression_plots(
     matrices: list,
@@ -101,7 +102,12 @@ def create_2d_scatter_plots_poly_reg(dataframe: pd.DataFrame, title: str, polyfi
     )
     figure.canvas.manager.set_window_title('Dataset Analysis (Linear Regression)')
 
+    spline = make_interp_spline(dataframe[0], polyfit_values[0])
+    X_ = np.linspace(dataframe[0].min(), dataframe[0].max(), 300)
+    Y_ = spline(X_)
+
     figure_data.scatter(x=dataframe[0], y=dataframe[1], color="blue")
+    figure_data.plot(X_, Y_)
     figure_data.set_title(title)
     plt.tight_layout()
     plt.show()
