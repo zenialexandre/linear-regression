@@ -6,7 +6,7 @@ from sklearn.linear_model import LinearRegression
 
 # dataset_dataframe = sizes, rooms, prices
 
-dataset_dataframe: pd.DataFrame = pd.read_csv(r"content/dataset_second_phase.csv", header=None)
+dataset_dataframe: pd.DataFrame = pd.read_csv(r'content/dataset_second_phase.csv', header=None)
 
 def process_dataset_dataframe_analysis(
     dataset_dataframe: pd.DataFrame
@@ -118,15 +118,16 @@ def calculate_multiple_linear_regression(
     dataset_dataframe: pd.DataFrame    
 ) -> list:
     # Calculating the Multiple Linear Regression
-    dataset_scikit = dataset_dataframe.copy()
+    dataset_scikit: pd.DataFrame = dataset_dataframe.copy()
     dataset_dataframe.insert(loc=0, column="initial", value=1)
 
-    multiple_linear_regression_result, beta = multiple_linear_regression(
+    (multiple_linear_regression_result, beta) = multiple_linear_regression(
         dataset_dataframe.iloc[:, 0:3].values,
         dataset_dataframe.iloc[:, 3].values
     )
-    
+
     '''
+    Multiple Linear Regression Result:
     [
         356283.19500476 286121.03514098 397489.54286126 269244.19378551
         472278.00823128 330979.21406118 276933.13325406 262037.59534648
@@ -143,7 +144,8 @@ def calculate_multiple_linear_regression(
     ]
     ''' 
 
-    previsions = validate_multiple_linear_regression(beta)
+    _ = validate_multiple_linear_regression(beta)
+    _ = compare_previsions_scikitlearn(dataset_scikit)
     '''
     O preço de uma casa com tamanho 1650 e com 3 quartos previsto pelo nosso modelo está no primeiro indice da lista abaixo:
 
@@ -152,8 +154,8 @@ def calculate_multiple_linear_regression(
     Conforme o número de quartos aumenta, o preço diminui. Com cinco quartos, o modelo previu o valor de 275605, e com 9
     previu o valor de 240654.
 
-    Aumentando o número de quartos para valores maiores ou iguais a cinco, o modelo começa a fazer previsões estranbhas devido
-    a falta de dados de exemplo nesses casos. 
+    Aumentando o número de quartos para valores maiores ou iguais a cinco, o modelo começa a fazer previsões fora do comum, devido
+    a falta de dados de exemplo nesses casos.
 
     Como prova, previmos o preço de uma casa com dois quartos, e foi previsto o valor 301819, algo que faz sentido graficamente
     analisando os dados 3D do modelo e também pelo maior número de amostras de valores menores para quartos.
@@ -164,30 +166,30 @@ def calculate_multiple_linear_regression(
 
     Os valores estão muito similares com os que previmos no nosso modelo.
     '''
-    previsions_scikit = compare_previsions_scikitlearn(dataset_scikit)
-
-    print(previsions_scikit)
 
     return multiple_linear_regression_result
 
-def compare_previsions_scikitlearn(df):
-    df_validation = pd.DataFrame(data={0:[1650,1650,1650,1650],1:[3,5,2,9]})
-
+def compare_previsions_scikitlearn(
+    dataset_dataframe: pd.DataFrame
+) -> np.ndarray:
+    dataset_dataframe_validation = pd.DataFrame(data={0:[1650, 1650, 1650, 1650], 1:[3, 5, 2, 9]})
     model = LinearRegression()
-    X_train = df.iloc[:, 0:2]
-    y_train = df.iloc[:, 2]
+    X_train = dataset_dataframe.iloc[:, 0:2]
+    y_train = dataset_dataframe.iloc[:, 2]
 
     model.fit(X_train, y_train)
 
-    return model.predict(df_validation)
-    
-def validate_multiple_linear_regression(beta: np.ndarray) -> None:
+    return model.predict(dataset_dataframe_validation)
+
+def validate_multiple_linear_regression(
+    beta: np.ndarray
+) -> list:
     #Validation dataset
-    df_validation = pd.DataFrame(data={"initial":[1,1,1,1],0:[1650,1650,1650,1650],1:[3,5,2,9]})
-    df_validation = df_validation.iloc[:, :].values
+    dataset_dataframe_validation = pd.DataFrame(data={"initial":[1,1,1,1],0:[1650,1650,1650,1650],1:[3,5,2,9]})
+    dataset_dataframe_validation = dataset_dataframe_validation.iloc[:, :].values
     beta = np.transpose(beta)
 
-    return make_previsions_multiple_linear_regression(df_validation, beta)
+    return make_previsions_multiple_linear_regression(dataset_dataframe_validation, beta)
 
 def show_corr_and_linear_reg_plots(
     dataset_dataframe: pd.DataFrame,
