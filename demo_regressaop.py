@@ -1,9 +1,12 @@
 import pandas as pd
 import numpy as np
-from plotter import create_single_3d_scatter_plots
+from plotter import create_2d_scatter_plots_poly_reg
+from regression_utils import calculate_polynomial_regression
 
 df = pd.read_csv(r"content/data_preg.csv", header=None)
 
-#create_single_3d_scatter_plots(df)
 
-print(np.polyfit(df.iloc[:,0:1], df.iloc[:,1], 1))
+
+#print(create_2d_scatter_plots_poly_reg(df, "Gráfico Regressão Polinomial"))
+
+print(calculate_polynomial_regression(df[0], df[1], 1))

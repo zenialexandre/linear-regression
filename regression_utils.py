@@ -84,3 +84,11 @@ def make_previsions_multiple_linear_regression(
 
 def calculate_mean_squared_error():
     return None
+
+def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int = 1):
+    beta_coef_list = np.polyfit(X, y, 1)
+    power = coef
+    #TODO: Finalizar a construção da matriz da regressão polinomial
+    for index, beta_coef in enumerate(beta_coef_list):
+        if(index != len(beta_coef_list) - 1 ):
+            pass

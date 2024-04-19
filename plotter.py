@@ -89,3 +89,17 @@ def create_3d_scatter_plots(
     figure_data_3d.set_xlabel('X1-Sizes')
     figure_data_3d.set_ylabel('X2-Rooms')
     figure_data_3d.set_zlabel('Y-Prices')
+
+
+def create_2d_scatter_plots_poly_reg(dataframe: pd.DataFrame, title: str, polyfit_values: list = None):
+    (figure, figure_data) = plt.subplots(
+        nrows=1,
+        ncols=1,
+        figsize=(18, 5)
+    )
+    figure.canvas.manager.set_window_title('Dataset Analysis (Linear Regression)')
+
+    figure_data.scatter(x=dataframe[0], y=dataframe[1], color="blue")
+    figure_data.set_title(title)
+    plt.tight_layout()
+    plt.show()
