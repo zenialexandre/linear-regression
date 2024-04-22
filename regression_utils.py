@@ -82,10 +82,17 @@ def make_previsions_multiple_linear_regression(
 ) -> list:
     return np.matmul(independent_variables_matrix, beta).tolist()
 
-def calculate_mean_squared_error():
-    return None
+def calculate_mean_squared_error(y: pd.Series, y_hat: pd.Series):
+    mse_sum = 0
+    y = y.to_list()
+    y_hat = y_hat.to_list()
+    
+    for idx in range(len(y)):
+        mse_sum += (y[idx] - y_hat[idx]) ** 2
 
-def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int = 1):
+    return (1/len(y)) * mse_sum
+
+def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int):
     beta_coef_list = np.polyfit(X, y, coef).tolist()
     beta_coef_list.reverse()
     beta_0 = beta_coef_list.pop(0)
@@ -95,7 +102,7 @@ def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int = 1)
     for beta_coef in beta_coef_list:
         power += 1
         if(y_hat.any()):
-            y_hat = np.add(y, np.multiply(beta_coef, np.power(X, power)))
+            y_hat = np.add(y_hat, np.multiply(beta_coef, np.power(X, power)))
         else:
             y_hat = np.multiply(beta_coef, X)
 

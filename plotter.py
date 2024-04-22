@@ -93,21 +93,45 @@ def create_3d_scatter_plots(
     figure_data_3d.set_ylabel('X2-Rooms')
     figure_data_3d.set_zlabel('Y-Prices')
 
+def create_2d_plots_poly_reg(X: pd.Series, y: pd.Series, predicted_lines: list):
 
-def create_2d_scatter_plots_poly_reg(dataframe: pd.DataFrame, title: str, polyfit_values: list = None):
     (figure, figure_data) = plt.subplots(
-        nrows=1,
+        nrows=2,
         ncols=1,
         figsize=(18, 5)
     )
     figure.canvas.manager.set_window_title('Dataset Analysis (Linear Regression)')
+    
+    #TODO: Ajustar graficos
+    
+    for index, lines in enumerate(predicted_lines):
+        figure_data[index].scatter(x=X, y=y, color="blue")
+        for line in lines.items():
+            #spline = make_interp_spline(X, line[1]['pred_values'])
+            #X_ = np.linspace(X.min(), X.max(), 300)
+            #Y_ = spline(X_)
+            figure_data[index].plot(X, line[1]['pred_values'], color=line[0])
+            figure_data[index].set_title(line[1]['title'])
 
-    spline = make_interp_spline(dataframe[0], polyfit_values[0])
+    '''
+
+    
+    spline = make_interp_spline(dataframe[0], polyfit_values[1])
     X_ = np.linspace(dataframe[0].min(), dataframe[0].max(), 300)
     Y_ = spline(X_)
+    figure_data.plot(X_, Y_, color='green')
+    
+    spline = make_interp_spline(dataframe[0], polyfit_values[2])
+    X_ = np.linspace(dataframe[0].min(), dataframe[0].max(), 300)
+    Y_ = spline(X_)
+    figure_data.plot(X_, Y_, color='black')
 
-    figure_data.scatter(x=dataframe[0], y=dataframe[1], color="blue")
-    figure_data.plot(X_, Y_)
-    figure_data.set_title(title)
+    spline = make_interp_spline(dataframe[0], polyfit_values[3])
+    X_ = np.linspace(dataframe[0].min(), dataframe[0].max(), 300)
+    Y_ = spline(X_)
+    figure_data.plot(X_, Y_, color='yellow')
+     
+    
+    '''
     plt.tight_layout()
     plt.show()
