@@ -93,45 +93,36 @@ def create_3d_scatter_plots(
     figure_data_3d.set_ylabel('X2-Rooms')
     figure_data_3d.set_zlabel('Y-Prices')
 
-def create_2d_plots_poly_reg(X: pd.Series, y: pd.Series, predicted_lines: list):
 
+
+def create_2d_figure(n_rows: int = 1, n_cols: int = 1):
     (figure, figure_data) = plt.subplots(
-        nrows=2,
-        ncols=1,
+        nrows=n_rows,
+        ncols=n_cols,
         figsize=(18, 5)
     )
+    
     figure.canvas.manager.set_window_title('Dataset Analysis (Linear Regression)')
-    
-    #TODO: Ajustar graficos
-    
-    for index, lines in enumerate(predicted_lines):
-        figure_data[index].scatter(x=X, y=y, color="blue")
-        for line in lines.items():
-            #spline = make_interp_spline(X, line[1]['pred_values'])
-            #X_ = np.linspace(X.min(), X.max(), 300)
-            #Y_ = spline(X_)
-            figure_data[index].plot(X, line[1]['pred_values'], color=line[0])
-            figure_data[index].set_title(line[1]['title'])
+    return figure_data
 
-    '''
+def create_scatter_plot_2d_polyreg(X, y, figure_data, n_rows):
+    if(n_rows == 1):
+        figure_data.scatter(X, y, color='blue')
+    else:
+        for col in range(n_rows):
+            figure_data[col].scatter(X, y, color='blue')
 
-    
-    spline = make_interp_spline(dataframe[0], polyfit_values[1])
-    X_ = np.linspace(dataframe[0].min(), dataframe[0].max(), 300)
-    Y_ = spline(X_)
-    figure_data.plot(X_, Y_, color='green')
-    
-    spline = make_interp_spline(dataframe[0], polyfit_values[2])
-    X_ = np.linspace(dataframe[0].min(), dataframe[0].max(), 300)
-    Y_ = spline(X_)
-    figure_data.plot(X_, Y_, color='black')
+    return figure_data
 
-    spline = make_interp_spline(dataframe[0], polyfit_values[3])
-    X_ = np.linspace(dataframe[0].min(), dataframe[0].max(), 300)
-    Y_ = spline(X_)
-    figure_data.plot(X_, Y_, color='yellow')
-     
+
+def update_plot_2d_polyreg(X: pd.Series, y: pd.Series, color:str, legend:str, figure_data, row: int = 0):
+    figure_data[row].plot(X, y, color=color, label=legend)
     
-    '''
-    plt.tight_layout()
-    plt.show()
+    return figure_data
+
+def print_legend_2d_polyreg(figure_data, n_rows):
+    if(n_rows == 1):
+        figure_data.legend()
+    else:
+        for col in range(n_rows):
+            figure_data[col].legend()

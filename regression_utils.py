@@ -109,3 +109,9 @@ def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int):
     y_hat = np.add(beta_0, y_hat)
 
     return y_hat
+
+def train_test_split(X, y, test_size: int):
+    size_test = math.ceil(len(X) * test_size)
+    size_train = len(X) - size_test
+
+    return X[size_test:], y[size_test:], y[:size_test]
