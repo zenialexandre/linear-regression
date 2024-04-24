@@ -6,7 +6,7 @@ from scipy.interpolate import make_interp_spline
 
 def create_regression_plots(
     matrices: list,
-    information_3d: tuple[list, np.ndarray, bool],
+    information_3d,
     additional_plot_titles: list = None
 ) -> None:
     (figure, figure_data) = plt.subplots(
@@ -30,7 +30,7 @@ def create_scatter_plots(
     figure: plt.figure,
     figure_data: any,
     matrices: list,
-    information_3d: tuple[list, np.ndarray, bool],
+    information_3d,
     additional_plot_titles: list = None
 ) -> None:
     create_2d_scatter_plots(

@@ -21,7 +21,7 @@ def correlation_coefficient(dataset_matrix: list) -> float:
         4
     )
 
-def linear_regression(dataset_matrix: list) -> tuple[list, float, float]:
+def linear_regression(dataset_matrix: list):
     (dataset_matrix_x_mean, dataset_matrix_y_mean) = get_dataset_matrix_x_and_y_means(dataset_matrix)
     beta_1: float = get_calculated_beta_1(
         dataset_matrix,
@@ -38,7 +38,7 @@ def linear_regression(dataset_matrix: list) -> tuple[list, float, float]:
     for cell_x in dataset_matrix[0]: y_hat.append(beta_0 + beta_1 * cell_x)
     return (y_hat, beta_1, beta_0)
 
-def get_dataset_matrix_x_and_y_means(dataset_matrix: list) -> tuple[float, float]:
+def get_dataset_matrix_x_and_y_means(dataset_matrix: list):
     return (np.mean(dataset_matrix[0]), np.mean(dataset_matrix[1]))
 
 def get_calculated_beta_1(
@@ -67,7 +67,7 @@ def get_calculated_beta_0(
 def multiple_linear_regression(
     independent_variables_matrix: np.ndarray,
     dependent_variable_vector: np.ndarray
-) -> tuple[list, np.ndarray]:
+):
     independent_variables_matrix_transposed: np.ndarray = np.transpose(independent_variables_matrix)
     beta: np.ndarray = np.matmul(
         np.matmul(
@@ -112,6 +112,5 @@ def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int):
 
 def train_test_split(X, y, test_size: int):
     size_test = math.ceil(len(X) * test_size)
-    size_train = len(X) - size_test
 
-    return X[size_test:], y[size_test:], y[:size_test]
+    return X[size_test:], y[size_test:], X[:size_test] ,y[:size_test]
