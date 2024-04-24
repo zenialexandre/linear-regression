@@ -208,6 +208,7 @@ def show_corr_and_linear_reg_plots(
     create_regression_plots(
         [np.array(prices_and_sizes_matrix), np.array(prices_and_rooms_matrix)],
         (multiple_linear_regression_result, np.array(sizes_and_rooms_and_prices_matrix), True),
+        'Multiple Linear Regression',
         ['Prices x Sizes', 'Prices x Rooms']
     )
 

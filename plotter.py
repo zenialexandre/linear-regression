@@ -7,6 +7,7 @@ from scipy.interpolate import make_interp_spline
 def create_regression_plots(
     matrices: list,
     information_3d,
+    sub_title: str,
     additional_plot_titles: list = None
 ) -> None:
     (figure, figure_data) = plt.subplots(
@@ -14,7 +15,7 @@ def create_regression_plots(
         ncols=(lambda: len(matrices) + 1 if information_3d[2] == True else len(matrices))(),
         figsize=(18, 5)
     )
-    figure.canvas.manager.set_window_title('Dataset Analysis (Linear Regression)')
+    figure.canvas.manager.set_window_title(f'Dataset Analysis ({sub_title})')
 
     create_scatter_plots(
         figure,
@@ -102,7 +103,7 @@ def create_2d_figure(n_rows: int = 1, n_cols: int = 1):
         figsize=(18, 5)
     )
     
-    figure.canvas.manager.set_window_title('Dataset Analysis (Linear Regression)')
+    figure.canvas.manager.set_window_title('Dataset Analysis (Polynomial Regression)')
     return figure_data
 
 def create_scatter_plot_2d_polyreg(X, y, figure_data, n_rows):

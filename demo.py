@@ -22,7 +22,8 @@ third_dataset_matrix: np.ndarray = np.array(
 
 create_regression_plots(
     [first_dataset_matrix, second_dataset_matrix, third_dataset_matrix],
-    (None, None, False)
+    (None, None, False),
+    'Linear Regression'
 )
 
 # Most inappropriate Dataset for Regression = third_dataset_matrix
