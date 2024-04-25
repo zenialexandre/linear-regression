@@ -94,19 +94,24 @@ def create_3d_scatter_plots(
     figure_data_3d.set_ylabel('X2-Rooms')
     figure_data_3d.set_zlabel('Y-Prices')
 
-
-
-def create_2d_figure(n_rows: int = 1, n_cols: int = 1):
+def create_2d_figure(
+    n_rows: int = 1,
+    n_cols: int = 1
+) -> any:
     (figure, figure_data) = plt.subplots(
         nrows=n_rows,
         ncols=n_cols,
         figsize=(18, 5)
-    )
-    
+    )    
     figure.canvas.manager.set_window_title('Dataset Analysis (Polynomial Regression)')
     return figure_data
 
-def create_scatter_plot_2d_polyreg(X, y, figure_data, n_rows):
+def create_scatter_plot_2d_polyreg(
+    X: pd.Series,
+    y: pd.Series,
+    figure_data: any,
+    n_rows: int
+) -> any:
     if(n_rows == 1):
         figure_data.scatter(X, y, color='blue')
     else:
@@ -115,13 +120,21 @@ def create_scatter_plot_2d_polyreg(X, y, figure_data, n_rows):
 
     return figure_data
 
-
-def update_plot_2d_polyreg(X: pd.Series, y: pd.Series, color:str, legend:str, figure_data, row: int = 0):
+def update_plot_2d_polyreg(
+    X: pd.Series,
+    y: pd.Series,
+    color: str,
+    legend: str,
+    figure_data: any,
+    row: int = 0
+) -> any:
     figure_data[row].plot(X, y, color=color, label=legend)
-    
     return figure_data
 
-def print_legend_2d_polyreg(figure_data, n_rows):
+def print_legend_2d_polyreg(
+    figure_data: any,
+    n_rows: int
+) -> None:
     if(n_rows == 1):
         figure_data.legend()
     else:

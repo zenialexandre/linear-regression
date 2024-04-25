@@ -63,11 +63,10 @@ def get_calculated_beta_0(
 ) -> float:
     return round(dataset_matrix_y_mean - beta_1 * dataset_matrix_x_mean, 4)
 
-
 def multiple_linear_regression(
     independent_variables_matrix: np.ndarray,
     dependent_variable_vector: np.ndarray
-):
+) -> tuple:
     independent_variables_matrix_transposed: np.ndarray = np.transpose(independent_variables_matrix)
     beta: np.ndarray = np.matmul(
         np.matmul(
@@ -82,23 +81,30 @@ def make_previsions_multiple_linear_regression(
 ) -> list:
     return np.matmul(independent_variables_matrix, beta).tolist()
 
-def calculate_mean_squared_error(y: pd.Series, y_hat: pd.Series):
-    mse_sum = 0
-    y = y.to_list()
-    y_hat = y_hat.to_list()
+def calculate_mean_squared_error(
+    y: pd.Series,
+    y_hat: pd.Series
+) -> float:
+    mse_sum: int = 0
+    y: list = y.to_list()
+    y_hat: list = y_hat.to_list()
     
     for idx in range(len(y)):
         mse_sum += (y[idx] - y_hat[idx]) ** 2
 
     return (1/len(y)) * mse_sum
 
-def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int):
-    beta_coef_list = np.polyfit(X, y, coef).tolist()
+def calculate_polynomial_regression(
+    X: np.ndarray,
+    y: np.ndarray,
+    coef: int
+) -> np.ndarray:
+    beta_coef_list: list = np.polyfit(X, y, coef).tolist()
     beta_coef_list.reverse()
-    beta_0 = beta_coef_list.pop(0)
-    power = 0
-    y_hat = np.array([])
-    #TODO: Finalizar a construção da matriz da regressão polinomial
+    beta_0: any = beta_coef_list.pop(0)
+    power: int = 0
+    y_hat: np.ndarray = np.array([])
+
     for beta_coef in beta_coef_list:
         power += 1
         if(y_hat.any()):
@@ -110,7 +116,10 @@ def calculate_polynomial_regression(X: np.ndarray, y: np.ndarray, coef: int):
 
     return y_hat
 
-def train_test_split(X, y, test_size: int):
+def train_test_split(
+    X: np.ndarray,
+    y: np.ndarray,
+    test_size: int
+) -> tuple:
     size_test = math.ceil(len(X) * test_size)
-
-    return X[size_test:], y[size_test:], X[:size_test] ,y[:size_test]
+    return X[size_test:], y[size_test:], X[:size_test], y[:size_test]

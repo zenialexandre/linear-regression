@@ -6,42 +6,45 @@ from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 
 dataset_dataframe: pd.DataFrame = pd.read_csv(r'content/dataset_third_phase.csv', header=None)
-X = dataset_dataframe[0]
-y = dataset_dataframe[1]
+X: pd.Series = dataset_dataframe[0]
+y: pd.Series = dataset_dataframe[1]
 
 X_train, y_train, X_test, y_test = train_test_split(X, y, test_size=0.10)
-ploynomial_degree = {'red': 1, 'green': 2, 'black': 3, 'yellow': 8}
-n_rows = 2
-n_cols = 1
+ploynomial_degree: dict = {'red': 1, 'green': 2, 'black': 3, 'yellow': 8}
+n_rows: int = 2
+n_cols: int = 1
 
-figure_data = create_2d_figure(n_rows, n_cols)
-figure_data = create_scatter_plot_2d_polyreg(X, y, figure_data, n_rows)
+figure_data: any = create_2d_figure(n_rows, n_cols)
+figure_data: any = create_scatter_plot_2d_polyreg(X, y, figure_data, n_rows)
 
 for color, degree in ploynomial_degree.items():
     #Calcula regressão polinomial sem dividir os dados em treio e teste
-    y_hat = calculate_polynomial_regression(X, y, degree)
-    mse = calculate_mean_squared_error(y, y_hat)
-    r2 = r2_score(y, y_hat)
+    y_hat: list = calculate_polynomial_regression(X, y, degree)
+    mse: float = calculate_mean_squared_error(y, y_hat)
+    r2: float = r2_score(y, y_hat)
 
-    figure_data = update_plot_2d_polyreg(X=X, 
-                                         y=y_hat, 
-                                         color=color, 
-                                         legend=f'MSE for {color}: {round(mse, 4)}, R² for {color}: {round(r2, 4)}', 
-                                         figure_data=figure_data, 
-                                         row=0)
+    figure_data = update_plot_2d_polyreg(
+        X=X, 
+        y=y_hat, 
+        color=color, 
+        legend=f'MSE for {color}: {round(mse, 4)}, R² for {color}: {round(r2, 4)}', 
+        figure_data=figure_data, 
+        row=0
+    )
     
     #Calcula a regressão polinomial dividindo os dados em treino e teste
-    y_hat = calculate_polynomial_regression(X_train, y_train, degree)
-    mse = calculate_mean_squared_error(y_test, y_hat)
-    r2 = r2_score(y_train, y_hat)
+    y_hat: list = calculate_polynomial_regression(X_train, y_train, degree)
+    mse: float = calculate_mean_squared_error(y_test, y_hat)
+    r2: float = r2_score(y_train, y_hat)
 
-    figure_data = update_plot_2d_polyreg(X=X_train, 
-                                         y=y_hat, 
-                                         color=color, 
-                                         legend=f'MSE for {color}: {round(mse, 4)}, R² for {color}: {round(r2, 4)}', 
-                                         figure_data=figure_data, 
-                                         row=1)
-    
+    figure_data = update_plot_2d_polyreg(
+        X=X_train, 
+        y=y_hat, 
+        color=color, 
+        legend=f'MSE for {color}: {round(mse, 4)}, R² for {color}: {round(r2, 4)}', 
+        figure_data=figure_data, 
+        row=1
+    )
 
 print_legend_2d_polyreg(figure_data, n_rows)
 plt.tight_layout()
